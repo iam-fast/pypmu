@@ -13,7 +13,7 @@ Data Transfer for Power Systems.
 
 """
 
-import collections
+from collections.abc import Sequence
 from abc import ABCMeta, abstractmethod
 from struct import pack, unpack
 from time import time
@@ -232,7 +232,7 @@ class CommonFrame(metaclass=ABCMeta):
             self.set_soc(int(t))  # Get current timestamp
 
         if frasec:
-            if isinstance(frasec, collections.Sequence):
+            if isinstance(frasec, Sequence):
                 self.set_frasec(*frasec)
             else:
                 self.set_frasec(frasec)  # Just set fraction of second and use default values for other arguments.
@@ -392,7 +392,7 @@ class CommonFrame(metaclass=ABCMeta):
         leap_occ = bool(leap_occ)
         leap_pen = bool(leap_pen)
 
-        fr_seconds = frasec_int & (2**23-1)
+        fr_seconds = frasec_int & (2**24-1)
 
         return fr_seconds, leap_dir, leap_occ, leap_pen, time_quality
 
